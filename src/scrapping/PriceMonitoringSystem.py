@@ -1,12 +1,76 @@
 from selenium import webdriver
 from datetime import datetime
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+
 from ProductScrapper import *
 from DiscountedProductScrapper import *
 
 product_success_message = 'Product has been added succesfully'
 product_error_message = 'Product could not be added'
 
+class Recommendation():
+
+    def __init__(self):
+        self.create_webdriver()
+        self.discountedProductScrapper = DiscountedProductScrapper(self.driver)
+        self.refresh_discounted_products()
+
+    
+
+    def find_similariest_product(self,product_name):
+
+        names = self.df_discountedProducts['product_name'].str.lower()
+        #add target product to the end of the list
+        names = names.append(pd.Series(product_name), ignore_index=True)
+
+        tfidf = TfidfVectorizer()
+        tfidf_matrix = tfidf.fit_transform(names)
+
+        cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+        #find similariest product of the target product
+        similarity_score, similar_prod_index = self.get_max(cosine_sim[-1])
+
+        name = names[similar_prod_index]
+        url = self.df_discountedProducts['product_link'][similar_prod_index]
+        price = self.df_discountedProducts['product_price'][similar_prod_index]
+        website = self.df_discountedProducts['website'][similar_prod_index]
+
+        now = datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+        product  = {"name": name, "website": website, "current_price": price,
+            "url" :url, "datetime":dt_string}
+
+        return product
+
+    def get_max(self,arr):
+        max = 0 
+        index = 0
+        for i in range(len(arr)):
+            if arr[i] < 0.98 and arr[i] > max:
+                max = arr[i]
+                index = i
+        return max,index
+
+    def refresh_discounted_products(self):
+        self.df_discountedProducts = self.discountedProductScrapper.scrape()
+
+    def create_webdriver(self):
+        # driver_path="./chromedriver"  #for linux
+        driver_path="./chromedriver.exe"   #ChromeDriver 87.0.4280.88 is used for Chrome version 87, 
+        
+        #chrome options
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--headless')
+        #chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--disable-dev-shm-usage') #only on Linux OS:
+
+        # Create a new instance of the Chrome driver
+        self.driver = webdriver.Chrome('chromedriver',chrome_options=chrome_options)
+
+    
 
 class UserProductsMonitoring():
 
@@ -118,5 +182,12 @@ if __name__ == "__main__":
 
     aUser.refresh_product_prices()
     print(aUser.products)
+
+    rec = Recommendation()   # biraz zaman alıyor programın başında başlat
+    
+    for deneme in aUser.products:
+        print(deneme['name'] + ' Similar with :')
+        prod = rec.find_similariest_product(deneme['name'])
+        print(prod)
         
 
