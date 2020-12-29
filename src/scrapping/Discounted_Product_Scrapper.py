@@ -3,15 +3,19 @@ import pandas as pd
 class Discounted_Product_Scrapper():
     def __init__(self, driver):
         self.driver = driver
-        self.url = None
+        self.gittigidiyor_url = 'https://www.gittigidiyor.com/yildiz-firsatlar'
+        self.n11_url = 'https://www.n11.com/super-firsatlar'
 
+
+    def set_page_urls(self,gittigidiyor_url, n11_url):
+
+        self.gittigidiyor_url = gittigidiyor_url
+        self.n11_url = n11_url
 
     def scrape(self):
-        gg_firsatlar ='https://www.gittigidiyor.com/yildiz-firsatlar'
-        products = self.gg_yildiz_firsatlar(gg_firsatlar)
 
-        n11_firsatlar = 'https://www.n11.com/super-firsatlar'
-        products_df = self.get_n11_discounted_products(n11_firsatlar)
+        products = self.gg_yildiz_firsatlar(self.gittigidiyor_url)
+        products_df = self.get_n11_discounted_products(self.n11_url)
 
         return pd.concat([products,products_df])
 
