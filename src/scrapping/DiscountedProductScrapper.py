@@ -40,11 +40,11 @@ class DiscountedProductScrapper():
                 price = column.find_element_by_class_name('fiyat')
                 #print(price.text)
 
-                products.append([prod_link,title.text,price.text])
+                products.append([prod_link,title.text,price.text,'GittiGidiyor'])
 
             except:
                 pass
-        products_df = pd.DataFrame(products,columns=['product_link','product_name','product_price'])
+        products_df = pd.DataFrame(products,columns=['product_link','product_name','product_price','website'])
 
         return products_df
 
@@ -66,9 +66,9 @@ class DiscountedProductScrapper():
                 print(title)
                 print(price)
                 '''
-                products.append([link,title,price.text])
+                products.append([link,title,price.text, 'N11'])
             except:
                 pass
 
-        products_df = pd.DataFrame(products,columns=['product_link','product_name','product_price'])
+        products_df = pd.DataFrame(products,columns=['product_link','product_name','product_price','website'])
         return products_df
