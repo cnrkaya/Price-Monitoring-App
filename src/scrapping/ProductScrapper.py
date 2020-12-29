@@ -1,5 +1,5 @@
 
-class GittiGidiyor_Scrapper():
+class GittiGidiyorScrapper():
     def __init__(self, driver):
         self.driver = driver
         self.url = None
@@ -38,7 +38,7 @@ class GittiGidiyor_Scrapper():
         return price
 
 
-class N11_Scrapper:
+class N11Scrapper:
     def __init__(self, driver):
         self.driver = driver
         self.url = None
@@ -75,7 +75,7 @@ class N11_Scrapper:
         price = float(price_string)
         return price
 
-class Trendyol_Scrapper:    
+class TrendyolScrapper:    
     def __init__(self, driver):
         self.driver = driver
         self.url = None

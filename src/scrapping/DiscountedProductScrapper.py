@@ -1,6 +1,6 @@
 import pandas as pd
 
-class Discounted_Product_Scrapper():
+class DiscountedProductScrapper():
     def __init__(self, driver):
         self.driver = driver
         self.gittigidiyor_url = 'https://www.gittigidiyor.com/yildiz-firsatlar'
