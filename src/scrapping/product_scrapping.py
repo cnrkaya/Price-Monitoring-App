@@ -30,11 +30,12 @@ if __name__ == '__main__':
     product_url = sys.argv[2]
     
     # Scrape price and product image URL
-    price, img_url = scrape_product(hostname, product_url)
+    img_url, product_name, price = scrape_product(hostname, product_url)
     
     # Create a dictionary
     result = {
         'hostname': hostname,
+        'product_name': product_name,
         'price': price,
         'img_url': img_url,
         'product_url': product_url
