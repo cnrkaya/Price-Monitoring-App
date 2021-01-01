@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import productsReducer from '../reducers/products';
 import filtersReducer from '../reducers/filters';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
     const store = createStore(
@@ -15,4 +15,4 @@ export default () => {
     );
 
     return store;
-}
+};
