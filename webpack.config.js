@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -11,6 +12,7 @@ if(process.env.NODE_ENV == 'test') {
 
 module.exports = (env) => {
     const isProduction = env === 'production';
+    const CSSExtract = new MiniCssExtractPlugin({ filename: 'styles.css' });
     return {
         entry: './src/app.js',
         output: {
@@ -22,8 +24,22 @@ module.exports = (env) => {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
+            }, {
+                test: /\.s?css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    }
+                ] 
             }]
         },
+        plugins: [
+            CSSExtract
+        ],
         devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {
             contentBase: path.join(__dirname, 'public'),
