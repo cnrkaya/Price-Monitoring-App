@@ -3,6 +3,7 @@ const router = new express.Router();
 const spawn = require('await-spawn')
 var url = require('url');
 
+// Scrape the given product
 router.post('/scrape', async (req, res) => {
     const allowedDomains = ['www.hepsiburada.com', 
                             'www.gittigidiyor.com', 
@@ -16,7 +17,7 @@ router.post('/scrape', async (req, res) => {
 
     const scrape = async () => {
     try {
-        const result = await spawn('python', ["./src/scrapping/product_scrapping.py",
+        const result = await spawn('python', ["./src/scripts/product_scrapping.py",
             hostname, 
             productUrl
         ])
@@ -27,6 +28,19 @@ router.post('/scrape', async (req, res) => {
     }
     scrape()
     
+});
+
+// Scrape all discounted products
+router.get('/discounted-products', async (req, res) => {
+    const scrape = async () => {
+    try {
+        const result = await spawn('python', ["./src/scripts/discounted_products_scraping.py"])
+        res.status(201).send(JSON.parse(result));
+    } catch (e) {
+        res.status(400).send({ error: 'An error has ocurred while scraping discounted products!' });
+    }
+    }
+    scrape()
 });
 
 module.exports = router;
