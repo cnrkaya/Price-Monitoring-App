@@ -5,7 +5,7 @@ from scrappers.n11 import N11Scrapper
 from scrappers.gittigidiyor import GittiGidiyorScrapper
 from scrappers.trendyol import TrendyolScrapper
 
-driver_path="./src/scrapping/chromedriver.exe"
+driver_path="./src/scripts/chromedriver.exe"
 
 def scrape_product(hostname, product_url):
     options = webdriver.ChromeOptions()
@@ -32,13 +32,16 @@ if __name__ == '__main__':
     # Scrape price and product image URL
     img_url, product_name, price = scrape_product(hostname, product_url)
     
+    # Format the price
+    price = '{:.2f}'.format(price)
+    
     # Create a dictionary
     result = {
         'hostname': hostname,
-        'product_name': product_name,
-        'price': price,
-        'img_url': img_url,
-        'product_url': product_url
+        'productName': product_name,
+        'currentPrice': price,
+        'imageURL': img_url,
+        'productURL': product_url
     }
     
     # Convert the dictionary to JSON

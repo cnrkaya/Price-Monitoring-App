@@ -19,7 +19,7 @@ router.post('/scrape', async (req, res) => {
 
     const scrape = async () => {
     try {
-        const result = await spawn('python', ["./src/scripts/product_scrapping.py",
+        const result = await spawn('python', ["./src/scripts/product_scraping.py",
             hostname, 
             productUrl
         ])

@@ -1,6 +1,7 @@
 import sys 
 import json
 import pandas as pd
+from uuid import uuid4
 from selenium import webdriver
 
 class DiscountedProductScrapper():
@@ -48,6 +49,7 @@ class DiscountedProductScrapper():
                 image_url = img.get_attribute('data-original')
                 
                 self.products.append({
+                    'id': str(uuid4()),
                     'hostname': 'gittigidiyor.com',
                     'productName': title.text,
                     'currentPrice': self.format_price(price.text),
@@ -75,6 +77,7 @@ class DiscountedProductScrapper():
                 img_URL = img.get_attribute('data-original')
                 
                 self.products.append({
+                    'id': str(uuid4()),
                     'hostname': 'n11.com',
                     'productName': title,
                     'currentPrice': self.format_price(price.text),
