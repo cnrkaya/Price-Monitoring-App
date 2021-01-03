@@ -7,6 +7,7 @@ export default class ProductForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            hostname: '',
             productURL: '',
             imageURL: '/images/placeholder.png',
             productName: '',
@@ -15,7 +16,8 @@ export default class ProductForm extends React.Component {
             note: '',
             createdAt: moment(),
             isLoading: false,
-            error: ''
+            error: '',
+            recommendedProduct: null
         }
     }
     onProductURLChange = (e) => {
@@ -51,29 +53,29 @@ export default class ProductForm extends React.Component {
         this.setState(() => ({
             note
         }));
-    }    
+    }
+    scrape = () => {
+        axios.post('/scrape', { url: this.state.productURL })
+        .then((response) => {
+            this.setState({ ...response.data })
+            this.recommendProduct()
+        })
+        .catch((error) => this.setState(() => ({ error: 'An error has occurred during the product scraping!' })))
+        .finally(() => this.setState(() => ({ isLoading: false })));
+    }
+    recommendProduct = () => {
+        axios.post('/most-similar-product', {productName: this.state.productName })
+        .then((response) => this.setState({ recommendedProduct: response.data }))
+        .catch((error) => this.setState(() => ({ error: 'An error has occurred during the product recommendation!' })))
+        .finally(() => this.setState(() => ({ isLoading: false })));
+    }
     onLoad = (e) => { 
         this.setState(() => ({
-            isLoading: true
+            isLoading: true,
+            error: ''
         }));  
-        axios.post('/scrape', {
-            url: this.state.productURL
-        })
-        .then((response) => {
-            this.setState(() => ({
-                ...response.data
-            }));
-        })
-        .catch((error) => {
-            this.setState(() => ({
-                error: 'An error has occurred while the data',
-            }));
-        })
-        .finally(() => {
-            this.setState(() => ({
-                isLoading: false
-            }));
-        });
+
+        this.scrape();        
     }
     onSubmit = (e) => {
         e.preventDefault();
@@ -86,7 +88,10 @@ export default class ProductForm extends React.Component {
             this.setState(() => ({
                 error: ''
             }));
+            const recommendedProduct = this.state.recommendedProduct;
+            recommendedProduct.currentPrice = parseFloat(recommendedProduct.currentPrice, 10) * 100;
             this.props.onFormSubmit({
+                hostname: this.state.hostname,
                 productURL: this.state.productURL,
                 imageURL: this.state.imageURL,
                 productName: this.state.productName,
@@ -94,7 +99,7 @@ export default class ProductForm extends React.Component {
                 targetPrice: parseFloat(this.state.targetPrice, 10) * 100,
                 note: this.state.note,
                 createdAt: this.state.createdAt.valueOf()
-            });
+            }, recommendedProduct);
         }
     }
     render() {

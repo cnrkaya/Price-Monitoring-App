@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProductForm from './ProductForm';
 import { addProduct } from '../actions/products';
+import { addRecommendedProduct } from '../actions/recommendedProducts';
 
 export class AddProductPage extends React.Component {
-    onSubmit = (product) => {
-        this.props.dispatch(addProduct(product));
+    onSubmit = (scrapedProduct, recommendedProduct) => {
+        this.props.dispatch(addProduct(scrapedProduct));
+        this.props.dispatch(addRecommendedProduct(recommendedProduct));
         this.props.history.push('/');
     }
     render() {
@@ -17,6 +19,5 @@ export class AddProductPage extends React.Component {
         );
     }
 };
-
 
 export default connect()(AddProductPage);
