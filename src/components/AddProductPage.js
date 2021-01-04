@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProductForm from './ProductForm';
-import { addProduct } from '../actions/products';
-import { addRecommendedProduct } from '../actions/recommendedProducts';
+import { startAddProduct } from '../actions/products';
+import { startAddRecommendedProduct } from '../actions/recommendedProducts';
 
 export class AddProductPage extends React.Component {
     onSubmit = (scrapedProduct, recommendedProduct) => {
-        this.props.dispatch(addProduct(scrapedProduct));
-        this.props.dispatch(addRecommendedProduct(recommendedProduct));
+        this.props.startAddProduct(scrapedProduct);
+        this.props.startAddRecommendedProduct(recommendedProduct);
         this.props.history.push('/');
     }
     render() {
@@ -20,4 +20,11 @@ export class AddProductPage extends React.Component {
     }
 };
 
-export default connect()(AddProductPage);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        startAddProduct: (product) => dispatch(startAddProduct(product)),
+        startAddRecommendedProduct: (recommendedProduct) => dispatch(startAddRecommendedProduct(recommendedProduct))
+    };
+};
+
+export default connect(undefined, mapDispatchToProps)(AddProductPage);

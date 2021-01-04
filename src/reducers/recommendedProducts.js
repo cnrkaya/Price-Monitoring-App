@@ -7,6 +7,8 @@ const recommendedProductsReducer = (state = recommendedProductsReducerDefaultSta
                 ...state,
                 action.recommendedProduct
             ];
+        case 'SET_RECOMMENDED_PRODUCTS':
+            return action.recommendedProducts;
         default:
             return state;
     }

@@ -7,6 +7,8 @@ const productsReducer = (state = productsReducerDefaultState, action) => {
                 ...state,
                 action.product
             ];
+        case 'SET_PRODUCTS':
+            return action.products;
         default:
             return state;
     }
