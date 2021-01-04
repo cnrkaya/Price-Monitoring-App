@@ -8,6 +8,8 @@ import { login, logout } from './actions/auth';
 import LoadingPage from './components/LoadingPage';
 import { startSetProducts } from './actions/products';
 import { startSetRecommendedProducts } from './actions/recommendedProducts';
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
 
 const store = configureStore();
 
