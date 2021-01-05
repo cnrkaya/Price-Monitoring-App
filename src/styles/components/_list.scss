@@ -1,0 +1,123 @@
+.list-header {
+    background: $off-white;
+    border: 1px solid darken($color: $off-white, $amount: 7%);
+    color: $grey;
+    display: flex;
+    flex-direction: row;
+    padding: $s-size $m-size;
+}
+
+.list-header--recommended {
+    justify-content: center;
+}
+
+.list-body {
+    margin-bottom: $m-size;
+    @media (min-width: $desktop-breakpoint) {
+        margin-bottom: $l-size;
+    }
+}
+
+.list-body--recommended {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 3.6rem;
+}
+
+.list-item {
+    border: 1px solid darken($color: $off-white, $amount: 7%);
+    border-top: none;
+    color: $dark-grey;
+    display: flex;
+    flex-direction: column;
+    padding: $s-size;
+    text-decoration: none;
+    transition: background .3s ease;
+    &:hover {
+        background: $off-white;
+    }
+    @media (min-width: $desktop-breakpoint) {
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.2rem 2.6rem;
+    }
+}
+
+.list-item--recommended {
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 33.3%;
+    text-align: center;
+    padding: 6rem;
+}
+
+.list-item--message {
+    align-items: center;
+    color: $grey;
+    justify-content: center;
+    padding: $m-size;
+    &:hover {
+        background: none;
+    }
+}
+
+.list-item__title {
+    margin: 0;
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 29rem;
+}
+
+.list-item__title--recommended {
+    width: 25rem;
+}
+
+.list-item__image {
+    height: 15rem;
+    width: 15rem;
+}
+
+.list-item__sub-title {
+    color: $grey;
+    font-size: $font-size-small;
+    margin: 0;
+}
+
+.list-item__data {
+    margin: $s-size 0 0 0;
+    width: 12.5rem;
+    text-align: center;
+    @media (min-width: $desktop-breakpoint) {
+        margin: 0;
+        padding-left: $s-size;
+    }
+}
+
+.list-item__info {
+   display: flex;
+   align-items: center;
+}
+
+.list-item__body {
+    display: flex;
+    align-items: baseline;
+}
+
+.list-item__body--recommened {
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-item__button {
+    margin-left: $m-size;
+}
+
+
+.list-item__data--recommended {
+    margin: 0;
+    width: 100%;
+}

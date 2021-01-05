@@ -28,18 +28,20 @@ export const ProductListFilters = (props) => {
         }
     }
     return (
-        <div>
-            <div>
-                <div>
+        <div className="content-container">
+            <div className="input-group">
+                <div className="input-group__item">
                     <input 
                         type='text'
+                        className="text-input"
                         placeholder='Search products'
                         value={props.filters.text}
                         onChange={onTextChange}
                     />
                 </div>
-                <div>
+                <div className="input-group__item">
                     <select
+                        className="select"
                         value={props.filters.sortBy}
                         onChange={onSortChange}
                     >
@@ -48,7 +50,7 @@ export const ProductListFilters = (props) => {
                         <option value='target_price'>Target Price</option>
                     </select>
                 </div>
-                <div>
+                <div className="input-group__item">
                     <DateRangePicker 
                     startDate={props.filters.startDate}
                     startDateId="your_unique_start_date_id"
@@ -66,15 +68,6 @@ export const ProductListFilters = (props) => {
         </div>
     );
 }
-
-// export class ProductListFilters extends React.Component {
-//     state 
-//     render () {
-//         return (
-//             <h1>hello</h1>
-//         );
-//     }
-// }
 
 const mapStateToProps = (state) => ({
     filters: state.filters

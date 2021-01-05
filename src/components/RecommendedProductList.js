@@ -3,20 +3,27 @@ import { connect } from 'react-redux';
 import RecommendedProductListItem from './RecommendedProductListItem';
 
 export const RecommendedProductList = (props) => (
-    <div>
-        <div>
+    <div className="content-container">
+        <div className="list-header list-header--recommended">
+            <div>Recommended Products</div>
+        </div>
+        
         {
             props.recommendedProducts.length === 0 ? (
-                <div>
-                    <span>No recommended products</span>
+                <div className="list-body"> 
+                    <div className="list-item list-item--message">
+                        <span>No recommended products</span>
+                    </div>
                 </div>
             ) : (
-                props.recommendedProducts.map((recommendedProduct) => {
-                    return <RecommendedProductListItem key={recommendedProduct.id} {...recommendedProduct} />
-                })
+                <div className="list-body list-body--recommended"> 
+                    {props.recommendedProducts.map((recommendedProduct) => {
+                        return <RecommendedProductListItem key={recommendedProduct.id} {...recommendedProduct} />
+                    })}
+                </div>
             )
         }
-        </div>
+       
     </div>
 );
 
