@@ -7,7 +7,11 @@ from selenium import webdriver
 class DiscountedProductScrapper():
     def __init__(self, driver):
         self.driver = driver
+
+        #the more pages the more products
+        self.gittigidiyor_page_num = 5  #can be parametirezed
         self.gittigidiyor_url = 'https://www.gittigidiyor.com/yildiz-firsatlar'
+
         self.n11_url = 'https://www.n11.com/super-firsatlar'
         self.products = []
 
@@ -19,7 +23,9 @@ class DiscountedProductScrapper():
 
     def scrape(self):
 
-        self.__gg_yildiz_firsatlar(self.gittigidiyor_url)
+        for page in range(1,self.gittigidiyor_page_num+1):
+          self.__gg_yildiz_firsatlar(self.gittigidiyor_url+'?yf=1&sf='+str(page))
+        
         self.__get_n11_discounted_products(self.n11_url)
 
         return self.products
