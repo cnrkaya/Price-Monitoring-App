@@ -6,15 +6,30 @@ class GittiGidiyorScrapper():
     def scrape(self, url):
         # Go to the given product
         self.driver.get(url)
+        # Scrape product image
+        img_url = self.scrape_product_image()
+        # Scrape product name
+        product_name = self.scrape_product_name()
+        # Scrape product price
+        price = self.scrape_price()
+        return img_url, product_name, price
+
+    def scrape_product_image(self):
+        # Find the element
+        img_obj = self.driver.find_element_by_id('big-photo')
+        img_url = img_obj.get_attribute('src')
+        return img_url
+    
+    def scrape_price(self):
         try:
-            return  self.scrape_product_name(),self.scrape_lowPrice()
+            return  self.scrape_lowPrice()
         except Exception:
             pass
         try:
-            return  self.scrape_product_name(), self.scrape_highPrice()
+            return self.scrape_highPrice()
         except Exception:
-            return  self.scrape_product_name(), 0.0
-        
+            return  0.0
+
     def scrape_lowPrice(self):
         # Find the element
         price_string = self.driver.find_element_by_id('sp-price-highPrice').text
