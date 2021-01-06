@@ -4,7 +4,7 @@ import ProductForm from './ProductForm';
 import { startAddProduct } from '../actions/products';
 import { startAddRecommendedProduct } from '../actions/recommendedProducts';
 
-export class AddProductPage extends React.Component {
+class AddProductPage extends React.Component {
     onSubmit = (scrapedProduct, recommendedProduct) => {
         this.props.startAddProduct(scrapedProduct);
         this.props.startAddRecommendedProduct(recommendedProduct);
@@ -13,9 +13,17 @@ export class AddProductPage extends React.Component {
     render() {
         return (
             <div>
-                <h1>Add Product</h1>
-                <ProductForm onFormSubmit={this.onSubmit}/>
+                <div className="page-header">
+                    <div className="content-container">
+                        <h1 className="page-header__title">Add Product</h1>
+                    </div>  
+                </div>
+                <div className="content-container">
+                    <ProductForm onFormSubmit={this.onSubmit}/>
+                </div>
             </div>
+            
+            
         );
     }
 };

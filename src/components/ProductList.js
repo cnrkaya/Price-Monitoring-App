@@ -21,7 +21,7 @@ export const ProductList = (props) => (
                 </div>
             ) : (
                 props.products.map((product) => {
-                    return <ProductListItem key={product.createdAt} {...product} />
+                    return <ProductListItem key={product.id} {...product} />
                 })
             )
         }
