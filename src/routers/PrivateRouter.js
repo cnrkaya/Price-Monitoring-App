@@ -7,9 +7,9 @@ import Footer from '../components/Footer';
 const PrivateRouter = ({ 
     isAuthenticated,
     component: Component, 
-    ...rest 
+    ...rest
     }) => (
-        <Route component={(props) => (
+        <Route {...rest} component={(props) => (
                 isAuthenticated ? (
                     <div>
                         <Header />
