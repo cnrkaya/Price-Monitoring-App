@@ -7,11 +7,7 @@ from scrappers.trendyol import TrendyolScrapper
 
 driver_path="./src/scripts/chromedriver.exe"
 
-def scrape_product(hostname, product_url):
-    options = webdriver.ChromeOptions()
-    options.add_argument("headless")
-    # Create a new instance of the Chrome driver
-    driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+def scrape_product(hostname, product_url,driver):
     
     scrapper = None
     if hostname == 'urun.n11.com' or hostname == 'www.n11.com':
@@ -28,9 +24,15 @@ if __name__ == '__main__':
     # Get inputs
     hostname = sys.argv[1]
     product_url = sys.argv[2]
+
+    #Options for driver
+    options = webdriver.ChromeOptions()
+    options.add_argument("headless")
+    # Create a new instance of the Chrome driver
+    driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
     
     # Scrape price and product image URL
-    img_url, product_name, price = scrape_product(hostname, product_url)
+    img_url, product_name, price = scrape_product(hostname, product_url,driver)
     
     # Format the price
     price = '{:.2f}'.format(price)

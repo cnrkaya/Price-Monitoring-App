@@ -4,10 +4,17 @@ import pandas as pd
 from uuid import uuid4
 from selenium import webdriver
 
+
 class DiscountedProductScrapper():
     def __init__(self, driver):
         self.driver = driver
+
+        #the more pages the more products
+        self.gittigidiyor_page_num = 5  #can be parametirezed
         self.gittigidiyor_url = 'https://www.gittigidiyor.com/yildiz-firsatlar'
+        self.trendyol_url ='https://www.trendyol.com/sr?fl=encoksatanurunler'
+
+
         self.n11_url = 'https://www.n11.com/super-firsatlar'
         self.products = []
 
@@ -19,8 +26,12 @@ class DiscountedProductScrapper():
 
     def scrape(self):
 
-        self.__gg_yildiz_firsatlar(self.gittigidiyor_url)
+        for page in range(1,self.gittigidiyor_page_num+1):
+          self.__gg_yildiz_firsatlar(self.gittigidiyor_url+'?yf=1&sf='+str(page))
+        
         self.__get_n11_discounted_products(self.n11_url)
+
+        self.__trendyol_best_sellers(self.trendyol_url)
 
         return self.products
 
@@ -30,7 +41,7 @@ class DiscountedProductScrapper():
 
         catalog_view = self.driver.find_element_by_class_name("catalog-view")
         columns = self.driver.find_elements_by_class_name("product-info-con")
-        product_links = driver.find_elements_by_class_name("product-link")
+        product_links = self.driver.find_elements_by_class_name("product-link")
         
         for i,column in enumerate(columns):
             try:
@@ -61,8 +72,6 @@ class DiscountedProductScrapper():
                 pass
 
     def __get_n11_discounted_products(self,link):
-        
-        products = list()
 
         self.driver.get(link)
         columns  = self.driver.find_elements_by_class_name("column")
@@ -87,7 +96,28 @@ class DiscountedProductScrapper():
 
             except:
                 pass
-            
+    def __trendyol_best_sellers(self,link):
+
+      self.driver.get(link)
+      container = self.driver.find_element_by_class_name('prdct-cntnr-wrppr')
+      product_containers =container.find_elements_by_class_name('p-card-chldrn-cntnr')
+
+      for product in product_containers:
+        try:
+          link  = product.find_element_by_tag_name('a').get_attribute('href')
+          title = product.find_element_by_class_name('prdct-desc-cntnr-name').text
+          price = product.find_element_by_class_name('prc-box-sllng').text
+          img_URL = product.find_element_by_tag_name('img').get_attribute('src')
+          self.products.append({
+                            'id': str(uuid4()),
+                            'hostname': 'trendyol.com',
+                            'productName': title,
+                            'currentPrice':  self.format_price(price),
+                            'imageURL': img_URL,
+                            'productURL': link})
+        except:
+          pass
+
     def format_price(self, price_string):
         price_string = price_string.replace(' TL', '')
         price_string = price_string.replace('.', '')
@@ -95,6 +125,7 @@ class DiscountedProductScrapper():
         price = float(price_string)
         price = '{:.2f}'.format(price)
         return price
+
 
 driver_path="./src/scripts/chromedriver.exe"
 
