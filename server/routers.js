@@ -8,8 +8,9 @@ const { save, load } = require('../src/utils/file');
 // Scrape the given product
 router.post('/scrape', async (req, res) => {
     const allowedDomains = ['www.hepsiburada.com', 
-                            'www.gittigidiyor.com', 
-                            'www.n11.com', 'urun.n11.com'];
+                            'www.n11.com', 'urun.n11.com',
+                            'www.trendyol.com', 'trendyol.com',
+                            'www.gittigidiyor.com', 'gittigidiyor.com'];
     const productUrl = req.body.url;
     const hostname = url.parse(productUrl).hostname;
     const isValidHostname = allowedDomains.includes(hostname);
