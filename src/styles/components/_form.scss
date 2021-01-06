@@ -1,0 +1,45 @@
+form {
+    display: flex; 
+    flex-direction: column;
+    > * {
+        margin-bottom: $m-size;
+    }
+ }
+ 
+.form-input-group {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+
+.form-input-element {
+    margin-bottom: 1rem;
+}
+
+.form__error {
+     margin: 0 0 $m-size 0;
+     font-style: italic;
+ }
+
+.form-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-image {
+    height: 28rem;
+    width: 28rem;
+}
+
+.form-button {
+    width: 53.5rem;
+}
+
+.form-load-url {
+    width: 45.5rem;
+    margin-right: 1rem;
+}
+
+.form-load-button {
+    padding: 1.6rem;
+}

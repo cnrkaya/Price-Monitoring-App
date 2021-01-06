@@ -1,21 +1,18 @@
 import React from 'react';
 import moment from 'moment';
 import axios from 'axios';
-import LoadingPage from './LoadingPage';
 
 export default class ProductForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hostname: '',
-            productURL: '',
-            imageURL: '/images/placeholder.png',
-            productName: '',
-            currentPrice: '',
-            targetPrice: '',
-            note: '',
-            createdAt: moment(),
-            isLoading: false,
+            hostname: props.product ? props.product.hostname : '',
+            imageURL: props.product ? props.product.imageURL : '/images/placeholder.png',
+            productName: props.product ? props.product.productName : '',
+            currentPrice: props.product ? (props.product.currentPrice / 100).toString() : '',
+            targetPrice: props.product ? (isNaN(props.product.targetPrice) ? '' : (props.product.targetPrice / 100).toString()) : '',
+            note: props.product ? props.product.note : '',
+            createdAt: props.product ? (moment(props.product.createdAt)) : moment(),
             error: '',
             recommendedProduct: null
         }
@@ -105,8 +102,6 @@ export default class ProductForm extends React.Component {
     render() {
         return (
             <div>
-                {this.state.isLoading ? <LoadingPage /> : null}
-    
                 <div>
                     <input
                         autoFocus
@@ -114,51 +109,186 @@ export default class ProductForm extends React.Component {
                         placeholder="Product URL"
                         onChange={this.onProductURLChange}
                         value={this.state.productURL}
+                        className="text-input form-input-element form-load-url"
                     />
-                    <button onClick={this.onLoad}>Load</button>
-                </div>
-                <form onSubmit={this.onSubmit}>
-                {this.state.error && <p>{this.state.error}</p>}
-                <div>
-                    <img 
-                        src={this.state.imageURL}
-                        height={250}
-                        width={250}
-                    />
-                    <div>
-                        <input 
-                            type="text"
-                            placeholder="Product Name"
-                            onChange={this.onProductNameChange}
-                            value={this.state.productName}
-                        />
-                        <input 
-                            type="text"
-                            placeholder="Current Price"
-                            onChange={this.onCurrentPriceChange}
-                            value={this.state.currentPrice}
-                        />
-                        <input 
-                            type="text"
-                            placeholder="Target Price"
-                            onChange={this.onTargetPriceChange}
-                            value={this.state.targetPrice}
-                        /> 
-                        <textarea 
-                            placeholder="Add a note for your product (optional)"
-                            onChange={this.onNoteChange}
-                            value={this.state.note}
-                        /> 
-                        <div>
-                            <button>Save Product</button>
-                        </div>                      
-                    </div>
-                
-                </div>
-            </form>
-            
-            </div>
+                    <button 
+                        onClick={this.onLoad}
+                        className="button button--secondary form-load-button"
+                    >Load</button>
+                 </div>
 
+
+                <form onSubmit={this.onSubmit} className="form">
+                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    <div className="form-content">
+                        <img 
+                            src={this.state.isLoading ? "./images/loader.gif" : this.state.imageURL}
+                            className="form-image"
+                        />
+                        <div >
+                            <div className="form-input-group ">
+                                    <input 
+                                    type="text"
+                                    placeholder="Product Name"
+                                    onChange={this.onProductNameChange}
+                                    value={this.state.productName}
+                                    className="text-input form-input-element"
+                                    />
+                                    <input 
+                                        type="text"
+                                        placeholder="Current Price"
+                                        onChange={this.onCurrentPriceChange}
+                                        value={this.state.currentPrice}
+                                        className="text-input form-input-element"
+                                    />
+                                    <input 
+                                        type="text"
+                                        placeholder="Target Price"
+                                        onChange={this.onTargetPriceChange}
+                                        value={this.state.targetPrice}
+                                        className="text-input form-input-element"
+                                    /> 
+                                    <textarea 
+                                        placeholder="Add a note for your product (optional)"
+                                        onChange={this.onNoteChange}
+                                        value={this.state.note}
+                                        className="textarea form-input-element"
+                                     /> 
+                            
+                            </div>
+
+                            <div>
+                                
+                            </div>                      
+                        </div>
+                    </div>
+                    <button className="button form-button">Save Product</button> 
+                </form>
+            </div>
         )
     }
 }
+
+// export default class ProductForm extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             hostname: props.product ? props.product.hostname : '',
+//             imageURL: props.product ? props.product.imageURL : '/images/placeholder.png',
+//             productName: props.product ? props.product.productName : '',
+//             currentPrice: props.product ? (props.product.currentPrice / 100).toString() : '',
+//             targetPrice: props.product ? (isNaN(props.product.targetPrice) ? '' : (props.product.targetPrice / 100).toString()) : '',
+//             note: props.product ? props.product.note : '',
+//             createdAt: props.product ? (moment(props.product.createdAt)) : moment(),
+//             isLoading: props.isLoading,
+//             error: '',
+//         }
+//     }
+//     onProductNameChange = (e) => {
+//         const productName = e.target.value;
+//         this.setState(() => ({
+//             productName
+//         }));
+//     }
+//     onCurrentPriceChange = (e) => {
+//         const currentPrice = e.target.value;
+//         if (!currentPrice || currentPrice.match(/^\d{1,}(\.\d{0,2})?$/)) {
+//             this.setState(() => ({
+//                 currentPrice
+//             }));
+//         }
+//     }
+//     onTargetPriceChange = (e) => {
+//         const targetPrice = e.target.value;
+//         if (!targetPrice || targetPrice.match(/^\d{1,}(\.\d{0,2})?$/)) {
+//             this.setState(() => ({
+//                 targetPrice
+//             }));
+//         }
+//     }
+//     onNoteChange = (e) => {
+//         const note = e.target.value;
+//         this.setState(() => ({
+//             note
+//         }));
+//     }
+//     loadProduct = (product) => {
+//         this.setState(() => ({
+            
+//         }))
+//     }
+//     onSubmit = (e) => {
+//         e.preventDefault();
+//         const isNotValidForm = !this.state.productName || !this.state.currentPrice || !this.state.targetPrice;
+//         if (isNotValidForm) {
+//             this.setState(() => ({
+//                 error: 'Please provide all necessary fields!'
+//             }));
+//         } else {
+//             this.setState(() => ({
+//                 error: ''
+//             }));
+//             //this.props.onFormSubmit();
+//             // const recommendedProduct = this.state.recommendedProduct;
+//             // recommendedProduct.currentPrice = parseFloat(recommendedProduct.currentPrice, 10) * 100;
+//             this.state.createdAt == 0 ? moment() :  this.state.createdAt;
+//             this.props.onFormSubmit({
+//                 hostname: this.state.hostname,
+//                 productURL: this.state.productURL,
+//                 imageURL: this.state.imageURL,
+//                 productName: this.state.productName,
+//                 currentPrice: parseFloat(this.state.currentPrice, 10) * 100,
+//                 targetPrice: parseFloat(this.state.targetPrice, 10) * 100,
+//                 note: this.state.note,
+//                 createdAt: this.state.createdAt.valueOf()
+//             });
+//         }
+//     }
+//     render() {
+//         return (
+//             <div>
+//                 <form onSubmit={this.onSubmit}>
+//                 {this.state.error && <p>{this.state.error}</p>}
+//                 <div>
+//                     <img 
+//                         src={this.state.imageURL}
+//                         height={250}
+//                         width={250}
+//                     />
+//                     <div>
+//                         <input 
+//                             type="text"
+//                             placeholder="Product Name"
+//                             onChange={this.onProductNameChange}
+//                             value={this.state.productName}
+//                         />
+//                         <input 
+//                             type="text"
+//                             placeholder="Current Price"
+//                             onChange={this.onCurrentPriceChange}
+//                             value={this.state.currentPrice}
+//                         />
+//                         <input 
+//                             type="text"
+//                             placeholder="Target Price"
+//                             onChange={this.onTargetPriceChange}
+//                             value={this.state.targetPrice}
+//                         /> 
+//                         <textarea 
+//                             placeholder="Add a note for your product (optional)"
+//                             onChange={this.onNoteChange}
+//                             value={this.state.note}
+//                         /> 
+//                         <div>
+//                             <button>Save Product</button>
+//                         </div>                      
+//                     </div>
+                
+//                 </div>
+//             </form>
+            
+//             </div>
+
+//         )
+//     }
+// }
