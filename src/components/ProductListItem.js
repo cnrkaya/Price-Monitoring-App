@@ -6,7 +6,7 @@ import numeral from 'numeral';
 
 const ProductListItem = ({ id, hostname, productURL, imageURL, productName, createdAt, currentPrice, targetPrice }) => (
     <div className="list-item" >
-        <Link className="list-item" style={{border: "none", padding:0}} to={`/edit/${id}`}>
+        <Link className="list-item" style={{border: "none", padding:0}} >
             <img className="list-item__image" style={{marginRight: "3rem"}} src={imageURL}/>
             <div className="list-item__body">
                 <div className="list-item__header">
