@@ -127,7 +127,7 @@ class DiscountedProductScrapper():
         return price
 
 
-driver_path="./src/scripts/chromedriver.exe"
+driver_path="./src/scripts/chromedriver"
 
 if __name__ == '__main__':
     options = webdriver.ChromeOptions()

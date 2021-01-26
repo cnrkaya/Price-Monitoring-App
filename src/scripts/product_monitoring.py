@@ -5,7 +5,7 @@ from selenium import webdriver
 from product_scraping import scrape_product
 
 
-driver_path="./src/scripts/chromedriver.exe"
+driver_path="./src/scripts/chromedriver"
 
         
 def string_toList(x):

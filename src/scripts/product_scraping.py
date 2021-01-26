@@ -5,7 +5,7 @@ from scrappers.n11 import N11Scrapper
 from scrappers.gittigidiyor import GittiGidiyorScrapper
 from scrappers.trendyol import TrendyolScrapper
 
-driver_path="./src/scripts/chromedriver.exe"
+driver_path="./src/scripts/chromedriver"
 
 def scrape_product(hostname, product_url,driver):
     
