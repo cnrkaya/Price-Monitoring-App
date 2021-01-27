@@ -1,4 +1,6 @@
 import sys 
+
+import os
 import json
 from selenium import webdriver
 
@@ -26,11 +28,13 @@ if __name__ == '__main__':
     product_urls = string_toList(sys.argv[3])
     prev_prices = string_toList(sys.argv[4])
 
-    #Options for driver
-    options = webdriver.ChromeOptions()
-    options.add_argument("headless")
-    # Create a new instance of the Chrome driver
-    driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
     changed_products = list()
     changed_ids = list()

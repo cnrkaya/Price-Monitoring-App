@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from uuid import uuid4
 from selenium import webdriver
-
+import os
 
 class DiscountedProductScrapper():
     def __init__(self, driver):
@@ -130,11 +130,14 @@ class DiscountedProductScrapper():
 driver_path="./src/scripts/chromedriver"
 
 if __name__ == '__main__':
-    options = webdriver.ChromeOptions()
-    options.add_argument("headless")
-    
-    # Create a new instance of the Chrome driver
-    driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     
     # Scrape discounted products
     discountedProductScrapper = DiscountedProductScrapper(driver)
